@@ -6,6 +6,14 @@ logs/
 # Ngoại lệ: tập vàng gán nhãn tay PHẢI commit (mất là mất luôn)
 !annotations/gold/
 
+# Dữ liệu bản đồ nguồn/trung gian của Track B — lớn, tải lại được từ URL công
+# khai đã ghi trong docs/track_b_maps_setup_guide.md. Không commit PBF (có thể
+# hàng trăm MB) hay các JSON nguồn thô. CÁC FILE BOUNDARY NHỎ (geojson) vẫn
+# commit bình thường vì cả nhóm cần dùng chung, không nằm trong luật loại trừ này.
+maps/*.pbf
+maps/01.json
+maps/gadm41_VNM_1.json
+
 # Python
 __pycache__/
 *.pyc
