@@ -2,13 +2,14 @@
 
 > **Tài liệu này ghi lại kết quả THẬT** sau khi chạy xong toàn bộ pipeline Track B
 > trên phường Từ Liêm. Dùng để đối chiếu khi nhóm mở rộng sang các xã/phường
-> tiếp theo. Hướng dẫn thực hiện từng bước nằm ở
-> [`docs/chuong_duong_track_b_pilot_guide.md`](chuong_duong_track_b_pilot_guide.md).
+> tiếp theo. 
 >
 > Kết quả mẫu của xã Chương Dương (dùng để hiểu "hình dạng đúng") nằm ở
 > [`docs/track_b_sample_outputs.md`](track_b_sample_outputs.md).
+> 
 
 ---
+*Link data Google Drive "https://drive.google.com/drive/folders/1TagT9TpM1_Qpy45nA1VCAst6Z6YkrNlA?usp=drive_link"*
 
 ## 1. Cấu trúc file kết quả
 
