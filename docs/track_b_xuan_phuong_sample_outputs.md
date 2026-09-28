@@ -124,10 +124,15 @@ File `cell_images_contact_sheet.png` nằm tại `data/processed/pilots/xuan_phu
 ### `cells_b5_qa.json`
 ```json
 {
-  "population_raster": "data\\raw\\worldpop\\vnm_ppp_2020_100m.tif",
+  "population_raster": "data\\raw\\population\\vnm_ppp_2020_UNadj_constrained.tif",
   "population_raster_crs": "EPSG:4326",
+  "population_raster_resolution_degrees": [
+    0.0008333333299579025,
+    0.0008333333300179816
+  ],
+  "population_value_unit": "people per raster pixel",
   "h3_cells": 15,
-  "total_population_across_cells": 108031.635,
+  "total_population_across_cells": 108031.63500000001,
   "note_on_total": "H3 resolutions 7 and 8 overlap in this pilot, so this sum is not a physical ward total.",
   "poi_source_pbf": "maps\\xuan_phuong.osm.pbf",
   "poi_node_records": 29,

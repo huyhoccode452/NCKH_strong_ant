@@ -60,13 +60,13 @@ maps/hanoi_wards_2025 ──────┼──► B2: Lưới Uber H3 (Res 7 
 * **Lệnh thực thi:**
   ```powershell
   # 1. Cắt OSM toàn Hà Nội từ file Việt Nam
-  osmium extract --strategy=complete_ways -p maps/hanoi_boundary.geojson data/raw/osm/vietnam-latest.osm.pbf -o data/raw/osm/hanoi.osm.pbf --overwrite
+  osmium extract --strategy=complete_ways -p maps/hanoi_boundary.geojson data/raw/osm/vietnam-latest.osm.pbf -o maps/hanoi.osm.pbf --overwrite
 
   # 2. Cắt OSM riêng cho Phường Xuân Phương (ward_id = 00622)
   python extract_ward_boundary.py --ward-id 00622 --output maps/xuan_phuong_boundary.geojson
-  osmium extract --strategy=complete_ways -p maps/xuan_phuong_boundary.geojson data/raw/osm/hanoi.osm.pbf -o maps/xuan_phuong.osm.pbf --overwrite
+  osmium extract --strategy=complete_ways -p maps/xuan_phuong_boundary.geojson maps/hanoi.osm.pbf -o maps/xuan_phuong.osm.pbf --overwrite
   ```
-* **Output:** `data/raw/osm/hanoi.osm.pbf` (21.8 MB), `maps/xuan_phuong.osm.pbf` (~210 KB).
+* **Output:** `maps/hanoi.osm.pbf` (21.8 MB), `maps/xuan_phuong.osm.pbf` (~210 KB).
 
 ---
 
@@ -98,12 +98,12 @@ maps/hanoi_wards_2025 ──────┼──► B2: Lưới Uber H3 (Res 7 
 ---
 
 ### 🔹 BƯỚC B5: Tích Hợp Dân Số WorldPop và Điểm Quan Tâm (POI)
-* **Mục tiêu:** Tính tổng dân số, mật độ dân số từ file raster WorldPop 100m (`vnm_ppp_2020_100m.tif`) bằng Zonal Statistics; đếm số lượng trường học (`n_schools`), bệnh viện (`n_hospitals`), và TTTM/chợ (`n_commercial_poi`) từ OSM.
+* **Mục tiêu:** Tính tổng dân số, mật độ dân số từ raster WorldPop (`vnm_ppp_2020_UNadj_constrained.tif`) bằng Zonal Statistics; đếm số lượng trường học (`n_schools`), bệnh viện (`n_hospitals`), và TTTM/chợ (`n_commercial_poi`) từ OSM.
 * **Quy chuẩn kỹ thuật:** Bắt buộc kiểm tra khớp hệ tọa độ CRS (`assert src.crs == EPSG:4326`) giữa raster và polygon vector trước khi tính tổng.
 * **Script:** `build_population_poi_features.py`
 * **Lệnh thực thi:**
   ```powershell
-  python build_population_poi_features.py --cells data/processed/pilots/xuan_phuong/cells_b4.parquet --cell-geometry data/processed/pilots/xuan_phuong/cells_geometry.geojson --population-raster data/raw/worldpop/vnm_ppp_2020_100m.tif --pbf maps/xuan_phuong.osm.pbf --output data/processed/pilots/xuan_phuong/cells_b5.parquet --qa-output data/processed/pilots/xuan_phuong/cells_b5_qa.json
+  python build_population_poi_features.py --cells data/processed/pilots/xuan_phuong/cells_b4.parquet --cell-geometry data/processed/pilots/xuan_phuong/cells_geometry.geojson --population-raster data/raw/population/vnm_ppp_2020_UNadj_constrained.tif --pbf maps/xuan_phuong.osm.pbf --output data/processed/pilots/xuan_phuong/cells_b5.parquet --qa-output data/processed/pilots/xuan_phuong/cells_b5_qa.json
   ```
 * **Output:** `cells_b5.parquet` (bổ sung các cột: `population`, `population_density`, `n_schools`, `n_hospitals`, `n_commercial_poi`) + `cells_b5_qa.json`.
 
@@ -231,7 +231,7 @@ Khi tiếp tục thực hiện cho bất kỳ xã/phường nào khác trong 126
 python extract_ward_boundary.py --ward-id <ward_id> --output maps/<ten_xa>_boundary.geojson
 
 # Bước 2: Cắt dữ liệu OSM
-osmium extract --strategy=complete_ways -p maps/<ten_xa>_boundary.geojson data/raw/osm/hanoi.osm.pbf -o maps/<ten_xa>.osm.pbf --overwrite
+osmium extract --strategy=complete_ways -p maps/<ten_xa>_boundary.geojson maps/hanoi.osm.pbf -o maps/<ten_xa>.osm.pbf --overwrite
 
 # Bước 3: Sinh lưới H3
 python build_h3_grid.py --boundary maps/<ten_xa>_boundary.geojson --ward "<Ten_Xa>" --output data/processed/pilots/<ten_xa>/cells.parquet --geometry-output data/processed/pilots/<ten_xa>/cells_geometry.geojson
@@ -240,7 +240,7 @@ python build_h3_grid.py --boundary maps/<ten_xa>_boundary.geojson --ward "<Ten_X
 python build_road_features.py --pbf maps/<ten_xa>.osm.pbf --cells data/processed/pilots/<ten_xa>/cells.parquet --cell-geometry data/processed/pilots/<ten_xa>/cells_geometry.geojson --output data/processed/pilots/<ten_xa>/cells_b4.parquet
 
 # Bước 5: Tích hợp dân số & POI
-python build_population_poi_features.py --cells data/processed/pilots/<ten_xa>/cells_b4.parquet --cell-geometry data/processed/pilots/<ten_xa>/cells_geometry.geojson --population-raster data/raw/worldpop/vnm_ppp_2020_100m.tif --pbf maps/<ten_xa>.osm.pbf --output data/processed/pilots/<ten_xa>/cells_b5.parquet
+python build_population_poi_features.py --cells data/processed/pilots/<ten_xa>/cells_b4.parquet --cell-geometry data/processed/pilots/<ten_xa>/cells_geometry.geojson --population-raster data/raw/population/vnm_ppp_2020_UNadj_constrained.tif --pbf maps/<ten_xa>.osm.pbf --output data/processed/pilots/<ten_xa>/cells_b5.parquet
 
 # Bước 6: Render ảnh bản đồ vector 224x224 & Contact sheet
 python render_cell_images.py --pbf maps/<ten_xa>.osm.pbf --cells data/processed/pilots/<ten_xa>/cells_b5.parquet --cell-geometry data/processed/pilots/<ten_xa>/cells_geometry.geojson --image-dir data/processed/pilots/<ten_xa>/cell_images --output data/processed/pilots/<ten_xa>/cells_b3.parquet --contact-sheet data/processed/pilots/<ten_xa>/cell_images_contact_sheet.png

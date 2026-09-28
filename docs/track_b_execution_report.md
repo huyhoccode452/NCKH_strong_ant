@@ -45,7 +45,7 @@ B2 (Lưới Uber H3) ───┼──► B5 (Dân số WorldPop + POI từ OSM
   * File toàn quốc: `data/raw/osm/vietnam-latest.osm.pbf` (~600MB - 1GB)
   * Đa giác ranh giới: `data/raw/osm/hanoi_boundary.geojson`
 * **Output:**
-  * `data/raw/osm/hanoi.osm.pbf` (~21.8 MB)
+  * `maps/hanoi.osm.pbf` (~21.8 MB)
   * `data/raw/osm/nam_tu_liem_xuan_phuong.osm.pbf` (~210 KB)
   * Script tiện ích mở rộng: `extract_ward.py` (tự động cắt bất kỳ phường nào theo yêu cầu).
 * **Lỗi thực tế gặp phải & Cách khắc phục:**
@@ -107,8 +107,8 @@ B2 (Lưới Uber H3) ───┼──► B5 (Dân số WorldPop + POI từ OSM
 
 * **Mục tiêu:** Đo lường mật độ dân số và các điểm phát sinh lưu lượng giao thông (trường học, bệnh viện, khu thương mại).
 * **Input:**
-  * Raster WorldPop 100m: `data/raw/worldpop/vnm_ppp_2020_100m.tif` (~15MB)
-  * File OSM: `data/raw/osm/*.osm.pbf`
+  * Raster WorldPop: `data/raw/population/vnm_ppp_2020_UNadj_constrained.tif` (~17 MB)
+  * File OSM: `maps/*.osm.pbf`
   * Bảng ô: `cells.parquet`
 * **Output:** Bổ sung vào `cells.parquet` các cột:
   * `population`, `population_density` (người/$\text{km}^2$).
@@ -156,10 +156,10 @@ Khi nhóm bắt đầu ghép nối toàn bộ dữ liệu TP. Hà Nội, chỉ c
 python generate_h3_grid.py data/raw/osm/hanoi_boundary.geojson data/processed/cells.parquet
 
 # 2. Trích xuất đặc trưng đường bộ toàn Hà Nội
-python extract_road_features.py data/raw/osm/hanoi.osm.pbf data/processed/cells.parquet data/processed/cells.parquet
+python extract_road_features.py maps/hanoi.osm.pbf data/processed/cells.parquet data/processed/cells.parquet
 
 # 3. Trích xuất dân số WorldPop & POI toàn Hà Nội
-python extract_population_poi.py data/raw/osm/hanoi.osm.pbf data/raw/worldpop/vnm_ppp_2020_100m.tif data/processed/cells.parquet data/processed/cells.parquet
+python extract_population_poi.py maps/hanoi.osm.pbf data/raw/population/vnm_ppp_2020_UNadj_constrained.tif data/processed/cells.parquet data/processed/cells.parquet
 
 # 4. Render ảnh bản đồ 224x224 cho toàn bộ các ô
 python render_cell_images.py data/processed/cells.parquet data/processed/cell_images data/processed/cells.parquet

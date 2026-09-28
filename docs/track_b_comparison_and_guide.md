@@ -68,10 +68,10 @@ maps/hanoi_wards_2025 ─┼──► B2 (Lưới H3: build_h3_grid.py) ──�
 
 ### Bước 2: Cắt dữ liệu OpenStreetMap (OSM) cục bộ cho xã/phường
 * **Công cụ:** `osmium-tool`
-* **Mục tiêu:** Trích xuất toàn bộ mạng lưới đường, sông hồ và khối nhà của riêng xã đó từ file OSM Hà Nội gốc (`data/raw/osm/hanoi.osm.pbf`).
+* **Mục tiêu:** Trích xuất toàn bộ mạng lưới đường, sông hồ và khối nhà của riêng xã đó từ file OSM Hà Nội gốc (`maps/hanoi.osm.pbf`).
 * **Lệnh thực thi:**
   ```powershell
-  osmium extract --strategy=complete_ways -p maps/chuong_duong_boundary.geojson data/raw/osm/hanoi.osm.pbf -o maps/chuong_duong.osm.pbf --overwrite
+  osmium extract --strategy=complete_ways -p maps/chuong_duong_boundary.geojson maps/hanoi.osm.pbf -o maps/chuong_duong.osm.pbf --overwrite
   ```
 * **Output:** `maps/chuong_duong.osm.pbf` (dung lượng siêu nhẹ, chỉ ~200KB – 1MB).
 
@@ -103,10 +103,10 @@ maps/hanoi_wards_2025 ─┼──► B2 (Lưới H3: build_h3_grid.py) ──�
 
 ### Bước 5 (B5): Tích hợp Dân số WorldPop và Điểm quan tâm (POI)
 * **Script:** `build_population_poi_features.py`
-* **Mục tiêu:** Thống kê tổng dân số và mật độ dân số từ ảnh raster WorldPop 100m (`vnm_ppp_2020_100m.tif`) bằng Zonal Statistics; đếm số lượng trường học (`n_schools`), bệnh viện (`n_hospitals`), và khu thương mại (`n_commercial_poi`) từ file OSM.
+* **Mục tiêu:** Thống kê tổng dân số và mật độ dân số từ raster WorldPop (`vnm_ppp_2020_UNadj_constrained.tif`) bằng Zonal Statistics; đếm số lượng trường học (`n_schools`), bệnh viện (`n_hospitals`), và khu thương mại (`n_commercial_poi`) từ file OSM.
 * **Lệnh thực thi:**
   ```powershell
-  python build_population_poi_features.py --cells data/processed/pilots/chuong_duong/cells_b4.parquet --cell-geometry data/processed/pilots/chuong_duong/cells_geometry.geojson --population-raster data/raw/worldpop/vnm_ppp_2020_100m.tif --pbf maps/chuong_duong.osm.pbf --output data/processed/pilots/chuong_duong/cells_b5.parquet --qa-output data/processed/pilots/chuong_duong/cells_b5_qa.json
+  python build_population_poi_features.py --cells data/processed/pilots/chuong_duong/cells_b4.parquet --cell-geometry data/processed/pilots/chuong_duong/cells_geometry.geojson --population-raster data/raw/population/vnm_ppp_2020_UNadj_constrained.tif --pbf maps/chuong_duong.osm.pbf --output data/processed/pilots/chuong_duong/cells_b5.parquet --qa-output data/processed/pilots/chuong_duong/cells_b5_qa.json
   ```
 * **Output:** `cells_b5.parquet` và file kiểm định `cells_b5_qa.json`.
 
@@ -128,5 +128,5 @@ maps/hanoi_wards_2025 ─┼──► B2 (Lưới H3: build_h3_grid.py) ──�
 
 ### Bước 7 (B6): Thu thập và xử lý Dữ liệu Thời tiết
 * **Script:** `collect_weather.py` (từ Open-Meteo Historical API) hoặc `ingest_era5_weather.py` (từ file lưới NetCDF4 của ERA5).
-* **Mục tiêu:** Lấy dữ liệu nhiệt độ, mưa, gió, độ ẩm, mây và gộp chuẩn theo 4 khung 6 giờ/ngày (`0h`, `6h`, `12h`, `18h` múi giờ `Asia/Bangkok`).
+* **Mục tiêu:** Lấy dữ liệu nhiệt độ, mưa, gió, độ ẩm, mây và gộp chuẩn theo 4 khung 6 giờ/ngày (`0h`, `6h`, `12h`, `18h` múi giờ `Asia/Ho_Chi_Minh`).
 * **Output:** `weather.parquet` với khóa chính `(h3_index, time_bin)`.
