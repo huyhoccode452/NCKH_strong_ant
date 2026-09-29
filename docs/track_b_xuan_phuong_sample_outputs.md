@@ -5,6 +5,7 @@
 > **Mục đích:** Tài liệu này cung cấp **kết quả THẬT và đầy đủ nhất** sau khi chạy xong toàn bộ pipeline Track B trên Phường Xuân Phương (bao gồm cả dữ liệu thời tiết 7 năm 2019–2025). Dùng tài liệu này để đối chiếu cấu trúc cột, kiểu dữ liệu, các giá trị thực tế và file QA khi triển khai trên các xã/phường khác.
 
 ---
+Link data Google Drive "https://drive.google.com/drive/folders/1x5M3rH4K8--f6v-eniY8r4xIxGlbCETC?hl=vi"
 
 ## 1. Toàn bộ cấu trúc file kết quả sau khi hoàn thành
 
