@@ -142,6 +142,9 @@ File `cell_images_contact_sheet.png` nằm tại `data/processed/pilots/xuan_phu
 }
 ```
 
+> **Xác minh raster chuẩn:** File `data/raw/population/vnm_ppp_2020_UNadj_constrained.tif` có dung lượng `17.612.362 bytes`, mã băm `SHA256: 02f0265983f206f5095a9099cb5f212ae62deb1dd54664109550313b82252ef0`, khớp 100% bit-for-bit với nguồn chính thức của WorldPop (`https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/VNM/vnm_ppp_2020_UNadj_constrained.tif`). Con số `108031.635` là kết quả tính toán thực tế từ raster này.
+
+
 ### `weather_qa.json`
 ```json
 {
