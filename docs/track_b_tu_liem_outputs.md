@@ -16,6 +16,9 @@
 > - Thời tiết: thay `weather_2019_01_04.parquet` (4 tháng demo) bằng
 >   `weather.parquet` đủ 2019-2025 từ Open-Meteo Historical API.
 > - `collect_weather.py` được patch để không crash khi `visibility` null.
+>
+> **📁 Data thô (ảnh PNG, parquet, cache thời tiết):**
+> [Google Drive — Từ Liêm](https://drive.google.com/drive/folders/1TagT9TpM1_Qpy45nA1VCAst6Z6YkrNlA?usp=sharing)
 
 ---
 
